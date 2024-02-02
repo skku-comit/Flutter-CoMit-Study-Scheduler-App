@@ -41,6 +41,7 @@ dependencies:
   flutter_platform_widgets: ^6.0.2
   flutter_riverpod: ^2.4.9
   get: ^4.6.6
+  flutter_svg: ^2.0.9
 
 dev_dependencies:
   flutter_test:
