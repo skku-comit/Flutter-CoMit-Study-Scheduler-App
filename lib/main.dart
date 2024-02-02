@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_comit_study_scheduler_app/view/login_page.dart';
 import 'package:flutter_comit_study_scheduler_app/view/register_page.dart';
 // import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Study Scheduler',
-        home: RegisterPage(),
+        home: LoginPage(),
       ),
     );
   }
