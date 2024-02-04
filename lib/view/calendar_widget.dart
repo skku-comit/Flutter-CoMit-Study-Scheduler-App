@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWidget extends StatelessWidget {
-  final CalendarController controller = Get.put(CalendarController());
+  final CalendarViewmodel controller = Get.put(CalendarViewmodel());
 
   @override
   Widget build(BuildContext context) {
