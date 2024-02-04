@@ -4,21 +4,22 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class LoginViewModel extends GetxController {
   final SocialLoginModel _socialLoginModel;
-  bool isLogined = false;
-  User? user;
+  RxBool isLogined = false.obs;
+  Rx<User?> user = Rx<User?>(null);
 
   LoginViewModel(this._socialLoginModel);
 
   Future<void> login() async {
-    isLogined = await _socialLoginModel.login();
-    if (isLogined) {
-      user = await UserApi.instance.me();
+    bool loginResult = await _socialLoginModel.login();
+    if (loginResult) {
+      isLogined.value = true;
+      user.value = await UserApi.instance.me();
     }
   }
 
   Future<void> logout() async {
     await _socialLoginModel.logout();
-    isLogined = false;
-    user = null;
+    isLogined.value = false;
+    user.value = null;
   }
 }

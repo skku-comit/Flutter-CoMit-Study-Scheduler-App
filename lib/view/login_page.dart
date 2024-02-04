@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final loginviewModel = LoginViewModel(KaKaoLoginModel());
+  final loginviewModel = Get.put(LoginViewModel(KaKaoLoginModel()));
 
   @override
   Widget build(BuildContext context) {
