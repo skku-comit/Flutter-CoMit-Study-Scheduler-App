@@ -1,42 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_comit_study_scheduler_app/main.dart';
+import 'package:flutter_comit_study_scheduler_app/model/kakao_login_model.dart';
 import 'package:flutter_comit_study_scheduler_app/view/home_page.dart';
+import 'package:flutter_comit_study_scheduler_app/viewmodel/login_viewmodel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
 
-  void kakaologin() async {
-    if (await isKakaoTalkInstalled()) {
-      try {
-        await UserApi.instance.loginWithKakaoTalk();
-        print('카카오톡으로 로그인 성공!');
-      } catch (error) {
-        print(error);
-
-        if (error is PlatformException && error.code == 'CANCELED') {
-          return;
-        }
-        try {
-          await UserApi.instance.loginWithKakaoAccount();
-          print('카카오계정으로 로그인 성공!');
-        } catch (error) {
-          print(error);
-        }
-      }
-    } else {
-      print('카카오톡이 설치되어 있지 않습니다.');
-      try {
-        await UserApi.instance.loginWithKakaoAccount();
-        print('카카오계정으로 로그인 성공!');
-      } catch (error) {
-        print('카카오계정으로 로그인 실패 $error');
-      }
-    }
-  }
+  final loginviewModel = LoginViewModel(KaKaoLoginModel());
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +49,8 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             InkWell(
-              onTap: (() => Get.to(HomePage())),
+              // onTap: (() => Get.to(HomePage())),
+              onTap: () => null,
               child: Ink(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.r),
@@ -91,7 +67,6 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.h),
-            // add thin line
             Row(
               children: [
                 Expanded(
@@ -119,7 +94,11 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             InkWell(
-              onTap: () => kakaologin(),
+              onTap: () async {
+                await loginviewModel
+                    .login()
+                    .then((value) => Get.to(HomePage()));
+              },
               child: Ink(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.r),
