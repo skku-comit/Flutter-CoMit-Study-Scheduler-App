@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_comit_study_scheduler_app/view/calendar_page.dart';
 import 'package:flutter_comit_study_scheduler_app/view/home_page.dart';
 import 'package:flutter_comit_study_scheduler_app/view/login_page.dart';
+import 'package:flutter_comit_study_scheduler_app/view/widgets/custom_navigation_bar.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -12,20 +14,11 @@ class AuthPage extends StatelessWidget {
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            // user is logged in
-            if (snapshot.hasData) {
-              return HomePage();
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+          if (snapshot.hasData) {
+            return CustomNavigationBar();
+          } else {
+            return LoginPage();
           }
-
-          // user is NOT logged in
-          return LoginPage();
         },
       ),
     );
