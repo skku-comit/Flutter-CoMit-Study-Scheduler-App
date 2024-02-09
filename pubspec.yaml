@@ -37,16 +37,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_screenutil: ^5.9.0
   table_calendar: ^3.0.9
-  kakao_flutter_sdk_user: ^1.8.0
   flutter_platform_widgets: ^6.0.2
   flutter_riverpod: ^2.4.9
   get: ^4.6.6
   flutter_svg: ^2.0.9
   intl: ^0.18.1
   dropdown_button2: ^2.3.9
-  supabase_flutter: ^2.3.2
   flutter_dotenv: ^5.1.0
   google_sign_in: ^6.2.1
+  firebase_core: ^2.25.4
+  firebase_auth: ^4.17.4
 
 dev_dependencies:
   flutter_test:
@@ -73,7 +73,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

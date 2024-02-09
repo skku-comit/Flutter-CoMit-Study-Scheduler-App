@@ -25,18 +25,37 @@ class CalendarWidget extends StatelessWidget {
         () => TableCalendar(
           firstDay: DateTime.utc(2020, 1, 1),
           lastDay: DateTime.utc(2030, 12, 31),
-          focusedDay: controller.focusedDay,
+          focusedDay: controller.focusedDay.value,
           onDaySelected: (DateTime selectDay, DateTime focusDay) {
             controller.setSelectedDate(selectDay, focusDay);
           },
           selectedDayPredicate: (DateTime day) {
-            return isSameDay(controller.selectedDate, day);
+            return isSameDay(controller.selectedDate.value, day);
           },
           locale: 'ko-KR',
           daysOfWeekHeight: 30,
           headerStyle: HeaderStyle(
             titleCentered: true,
             formatButtonVisible: false,
+          ),
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (BuildContext context, DateTime day, List events) {
+              // 선택된 날짜인 경우에만 마커 생성
+              if (isSameDay(controller.selectedDate.value, day)) {
+                return Container(
+                  margin: const EdgeInsets.all(4.0),
+                  width: 5,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blue,
+                  ),
+                );
+              } else {
+                // 선택되지 않은 날짜에는 빈 Container 반환
+                return Container();
+              }
+            },
           ),
         ),
       ),

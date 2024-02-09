@@ -1,14 +1,11 @@
-import 'package:flutter_comit_study_scheduler_app/model/calendar_model.dart';
 import 'package:get/get.dart';
 
 class CalendarViewmodel extends GetxController {
-  final CalendarModel _model = CalendarModel();
+  Rx<DateTime> selectedDate = DateTime.now().obs;
+  Rx<DateTime> focusedDay = DateTime.now().obs;
 
-  DateTime get selectedDate => _model.selectedDate.value;
-  DateTime get focusedDay => _model.focusedDay.value;
-
-  void setSelectedDate(DateTime selectedDate, DateTime focusDay) {
-    _model.selectedDate.value = selectedDate;
-    _model.focusedDay.value = focusDay;
+  void setSelectedDate(DateTime newSelectedDate, DateTime newFocusedDay) {
+    selectedDate.value = newSelectedDate;
+    focusedDay.value = newFocusedDay;
   }
 }

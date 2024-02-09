@@ -1,38 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comit_study_scheduler_app/model/kakao_login_model.dart';
-import 'package:flutter_comit_study_scheduler_app/view/Profile_page.dart';
-import 'package:flutter_comit_study_scheduler_app/view/calendar_widget.dart';
-import 'package:flutter_comit_study_scheduler_app/view/login_page.dart';
+import 'package:flutter_comit_study_scheduler_app/services/auth_service.dart';
+import 'package:flutter_comit_study_scheduler_app/view/widgets/calendar_widget.dart';
 import 'package:flutter_comit_study_scheduler_app/view/widgets/bottomsheet_widget.dart';
 import 'package:flutter_comit_study_scheduler_app/view/widgets/event_widget.dart';
-import 'package:flutter_comit_study_scheduler_app/viewmodel/login_viewmodel.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-
-  //add viewmodel
-  final KakaoLoginViewModel = Get.put(LoginViewModel(KaKaoLoginModel()));
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: Container(), // remove back button
         title: Text('Study Scheduler'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              KakaoLoginViewModel.logout() // add logout function
-                  .then((value) => Get.offAll(() => LoginPage()));
-            },
-          ),
-        ],
       ),
       body: Container(
         width: double.infinity,
@@ -43,11 +24,49 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 30.h),
             EventWidget(),
             ElevatedButton(
-                onPressed: () => Get.to(ProfilePage()),
-                child: Text('To profile page'))
+              onPressed: () {
+                AuthService().signOut();
+              },
+              child: Text('로그아웃'),
+            ),
           ],
         ),
       ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          height: 60.h,
+          margin: EdgeInsets.symmetric(horizontal: 20.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(50.r)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15),
+                blurRadius: 30,
+                offset: Offset(0, 10),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              PlatformIconButton(
+                onPressed: () {},
+                icon: Icon(PlatformIcons(context).info),
+              ),
+              PlatformIconButton(
+                onPressed: () {},
+                icon: Icon(PlatformIcons(context).home),
+              ),
+              PlatformIconButton(
+                onPressed: () {},
+                icon: Icon(PlatformIcons(context).person),
+              ),
+            ],
+          ),
+        ),
+      ),
+      extendBody: true,
       floatingActionButton: FloatingActionButton(
         shape: CircleBorder(),
         onPressed: () {
@@ -65,8 +84,6 @@ class HomePage extends StatelessWidget {
         ),
         backgroundColor: Colors.blue[500],
       ),
-      extendBody: true,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1015719228075",
+    "project_id": "study-scheduler-3f24d",
+    "storage_bucket": "study-scheduler-3f24d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015719228075:android:cf21fa26e7ceda7227fdee",
+        "android_client_info": {
+          "package_name": "com.example.flutter_comit_study_scheduler_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015719228075-tesoti6cq4fgej7g3ggg5av5nnvas6at.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_comit_study_scheduler_app",
+            "certificate_hash": "a3f270d40e81dcd94694aaa8fe8e07641583a9a5"
+          }
+        },
+        {
+          "client_id": "1015719228075-7uee0jnpkssrq8vait8ipak40m30h8i8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEyp0P_I3C1DTZsUM3FZdX74NeX6Gd-O8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015719228075-7uee0jnpkssrq8vait8ipak40m30h8i8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1015719228075-bd56tqn9oscbkeign1ri1lkk1v0ncafv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterComitStudySchedulerApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

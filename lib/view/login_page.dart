@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comit_study_scheduler_app/main.dart';
-import 'package:flutter_comit_study_scheduler_app/model/kakao_login_model.dart';
-import 'package:flutter_comit_study_scheduler_app/view/home_page.dart';
-import 'package:flutter_comit_study_scheduler_app/viewmodel/login_viewmodel.dart';
+import 'package:flutter_comit_study_scheduler_app/services/auth_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
-
-  final loginviewModel = Get.put(LoginViewModel(KaKaoLoginModel()));
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +87,7 @@ class LoginPage extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             InkWell(
-              onTap: () async {
-                await loginviewModel
-                    .login()
-                    .then((value) => Get.to(HomePage()));
-              },
+              onTap: () async {},
               child: Ink(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.r),
@@ -118,6 +107,38 @@ class LoginPage extends StatelessWidget {
                       ),
                       SizedBox(width: 10.w),
                       Text('카카오 로그인',
+                          style: TextStyle(
+                              fontSize: 20.sp, color: Color(0xD9000000))),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // google login
+            InkWell(
+              onTap: () async {
+                // Google 로그인을 시도하고 로그인 결과를 기다립니다.
+                await AuthService().signInWithGoogle();
+              },
+              child: Ink(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r),
+                  color: Colors.grey,
+                ),
+                width: double.infinity,
+                height: 50.h,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // SvgPicture.asset(
+                      //   'assets/images/google_logo.svg',
+                      //   width: 25.w,
+                      //   height: 25.h,
+                      // ),
+                      SizedBox(width: 10.w),
+                      Text('구글 로그인',
                           style: TextStyle(
                               fontSize: 20.sp, color: Color(0xD9000000))),
                     ],

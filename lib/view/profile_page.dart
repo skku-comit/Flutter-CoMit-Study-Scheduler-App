@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comit_study_scheduler_app/model/kakao_login_model.dart';
-import 'package:flutter_comit_study_scheduler_app/viewmodel/login_viewmodel.dart';
+import 'package:flutter_comit_study_scheduler_app/services/auth_service.dart';
 import 'package:get/get.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
-  final LoginViewModel viewModel = Get.put(LoginViewModel(KaKaoLoginModel()));
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +15,7 @@ class ProfilePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
-              viewModel.logout().then((value) => Navigator.of(context).pop());
+              AuthService().signOut();
             },
           ),
         ],
@@ -28,8 +25,7 @@ class ProfilePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Obx(() {
-              return Text(
-                  '${viewModel.user.value?.kakaoAccount?.profile?.nickname}');
+              return Text('${AuthService()}');
             }),
           ],
         ),
