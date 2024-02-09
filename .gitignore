@@ -44,3 +44,9 @@ app.*.map.json
 
 # Project settings
 *.env
+
+# Google Services 
+google-services.json
+
+# Gradle files
+info.plist
