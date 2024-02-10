@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comit_study_scheduler_app/services/auth_service.dart';
+import 'package:flutter_comit_study_scheduler_app/features/authentication/controllers/log_in_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -100,11 +102,11 @@ class LoginPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(
-                        'assets/images/kakao_logo.svg',
-                        width: 25.w,
-                        height: 25.h,
-                      ),
+                      // SvgPicture.asset(
+                      //   'assets/logos/kakao-logo.svg',
+                      //   width: 25.w,
+                      //   height: 25.h,
+                      // ),
                       SizedBox(width: 10.w),
                       Text('카카오 로그인',
                           style: TextStyle(
@@ -116,10 +118,7 @@ class LoginPage extends StatelessWidget {
             ),
             // google login
             InkWell(
-              onTap: () async {
-                // Google 로그인을 시도하고 로그인 결과를 기다립니다.
-                await AuthService().signInWithGoogle();
-              },
+              onTap: () => controller.googleSignIn(),
               child: Ink(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.r),
