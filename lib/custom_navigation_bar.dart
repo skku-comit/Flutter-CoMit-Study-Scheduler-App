@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comit_study_scheduler_app/view/calendar_page.dart';
-import 'package:flutter_comit_study_scheduler_app/view/home_page.dart';
-import 'package:flutter_comit_study_scheduler_app/features/personalization/screens/profile_page.dart';
+import 'package:flutter_comit_study_scheduler_app/calendar_page.dart';
+import 'package:flutter_comit_study_scheduler_app/home_page.dart';
+import 'package:flutter_comit_study_scheduler_app/features/personalization/screens/profiles/profile.dart';
 import 'package:get/get.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -13,7 +13,7 @@ class CustomNavigationBar extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Obx(
         () => NavigationBar(
-          height: 80,
+          height: 60,
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected: (index) =>

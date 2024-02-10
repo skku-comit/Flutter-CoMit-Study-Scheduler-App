@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comit_study_scheduler_app/services/auth_service.dart';
-import 'package:flutter_comit_study_scheduler_app/view/widgets/calendar_widget.dart';
-import 'package:flutter_comit_study_scheduler_app/view/widgets/bottomsheet_widget.dart';
-import 'package:flutter_comit_study_scheduler_app/view/widgets/custom_navigation_bar.dart';
-import 'package:flutter_comit_study_scheduler_app/view/widgets/event_widget.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_comit_study_scheduler_app/common/widgets/calendar_widget.dart';
+import 'package:flutter_comit_study_scheduler_app/common/widgets/bottomsheet_widget.dart';
+import 'package:flutter_comit_study_scheduler_app/common/widgets/event_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CalendarPage extends StatelessWidget {
@@ -24,12 +21,6 @@ class CalendarPage extends StatelessWidget {
             CalendarWidget(),
             SizedBox(height: 30.h),
             EventWidget(),
-            ElevatedButton(
-              onPressed: () {
-                AuthService().signOut();
-              },
-              child: Text('로그아웃'),
-            ),
           ],
         ),
       ),
