@@ -1,0 +1,22 @@
+# Configurations for flutter_native_splash package
+flutter_native_splash:
+
+  # Background color of the splash screen
+  color: "#FFFFFF"
+
+  image: assets/logos/comit-logo.jpeg
+
+  #Configuration for Android 12 splash screen
+  android12:
+
+    # Background color of the splash screen
+    color: "#FFFFFF"
+
+    # Image for the splash screen
+    image: assets/logos/comit-logo.jpeg
+  
+  # Disable the splash screen on web 
+  web: false
+
+
+
