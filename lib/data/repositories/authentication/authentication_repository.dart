@@ -8,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../features/authentication/screens/onboarding/onboarding.dart';
-import '../../../custom_navigation_bar.dart';
+import '../../../home.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -43,7 +43,7 @@ class AuthenticationRepository extends GetxController {
     if (user != null) {
       if (user.emailVerified) {
         await LocalStorage.init(user.uid);
-        Get.offAll(() => const CustomNavigationBar());
+        Get.offAll(() => const Home());
       } else {
         Get.offAll(() => LoginPage());
       }
