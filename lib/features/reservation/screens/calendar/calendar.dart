@@ -14,13 +14,13 @@ class CalendarScreen extends StatelessWidget {
         title: Text('Study Scheduler'),
       ),
       body: Container(
-        width: double.infinity,
         padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0.h),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             CalendarTable(),
             SizedBox(height: 20.h),
-            EventWidget(),
+            Expanded(child: EventWidget()),
           ],
         ),
       ),
