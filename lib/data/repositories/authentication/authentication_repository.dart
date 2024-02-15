@@ -6,6 +6,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../features/authentication/screens/onboarding/onboarding.dart';
 import '../../../home.dart';
@@ -75,6 +76,32 @@ class AuthenticationRepository extends GetxController {
       );
 
       return await FirebaseAuth.instance.signInWithCredential(credential);
+    } on FirebaseAuthException catch (e) {
+      throw e;
+    } catch (e) {
+      if (kDebugMode) print('Error: $e');
+      return null;
+    }
+  }
+
+  /// [AppleAuthentication] - APPLE
+  Future<UserCredential?> signInWithApple() async {
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oauthCredential = OAuthProvider('apple.com').credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      print('Apple ID: ${appleCredential.toString()}');
+
+      return await FirebaseAuth.instance.signInWithCredential(oauthCredential);
     } on FirebaseAuthException catch (e) {
       throw e;
     } catch (e) {
