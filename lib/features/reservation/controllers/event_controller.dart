@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_comit_study_scheduler_app/data/repositories/event/event_repository.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/models/event_model.dart';
@@ -9,13 +10,26 @@ class EventController extends GetxController {
 
   final eventRepository = Get.put(EventRepository());
   Rx<EventModel> event = EventModel.empty().obs;
+  RxList<EventModel> events = <EventModel>[].obs;
 
   /// Fetch event data
-  Future<List<EventModel>> fetchDateEvents() async {
+  Future<List<EventModel>> fetchDateEvents(String date) async {
     try {
-      final dateEvents = await eventRepository.fetchDateEvents();
+      final dateEvents = await eventRepository.fetchDateEvents(date);
+      events.assignAll(dateEvents);
       return dateEvents;
     } catch (e) {
+      return [];
+    }
+  }
+
+  /// Fetch all event data
+  Future<List<EventModel>> fetchAllEvents() async {
+    try {
+      final allEvents = await eventRepository.fetchAllEvents();
+      return allEvents;
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
       return [];
     }
   }
@@ -36,6 +50,7 @@ class EventController extends GetxController {
             endTime: event.endTime,
             category: event.category,
             status: event.status,
+            userEmail: event.userEmail,
           );
           await eventRepository.saveEventData(newEvent);
           this.event(newEvent);

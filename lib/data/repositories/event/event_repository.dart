@@ -16,18 +16,18 @@ class EventRepository extends GetxController {
   /// Function to save event data to firestore
   Future<void> saveEventData(EventModel event) async {
     try {
-      await _db.collection("Events").doc(event.id).set(event.toJson());
+      await _db.collection("Events").add(event.toJson());
     } catch (e) {
       Get.snackbar('Error', e.toString());
     }
   }
 
   /// Function to fetch event data from firestore
-  Future<List<EventModel>> fetchDateEvents() async {
+  Future<List<EventModel>> fetchDateEvents(String date) async {
     try {
       final result = await _db
           .collection("Events")
-          .where('date', isEqualTo: Formatter.formatDate(DateTime.now()))
+          .where('date', isEqualTo: date) // 주어진 date와 일치하는 이벤트만 필터링
           .get();
       return result.docs
           .map((documentSnapshot) => EventModel.fromSnapshot(documentSnapshot))
@@ -38,15 +38,16 @@ class EventRepository extends GetxController {
     }
   }
 
-  /// Function to update event data in firestore
-  Future<void> updateEventData(EventModel updatedEvent) async {
+  /// Function to fetch all event data from firestore
+  Future<List<EventModel>> fetchAllEvents() async {
     try {
-      await _db
-          .collection("Events")
-          .doc(updatedEvent.id)
-          .update(updatedEvent.toJson());
+      final result = await _db.collection("Events").get();
+      return result.docs
+          .map((documentSnapshot) => EventModel.fromSnapshot(documentSnapshot))
+          .toList();
     } catch (e) {
       Get.snackbar('Error', e.toString());
+      throw e.toString();
     }
   }
 }

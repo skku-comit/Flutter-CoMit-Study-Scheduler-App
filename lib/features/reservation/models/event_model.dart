@@ -11,7 +11,8 @@ class EventModel {
   final String startTime;
   final String endTime;
   final String category;
-  final EventStatus status;
+  final String status;
+  final String userEmail;
 
   EventModel({
     required this.id,
@@ -23,16 +24,11 @@ class EventModel {
     required this.endTime,
     required this.category,
     required this.status,
+    required this.userEmail,
   });
 
   String get usernameText => 'by ${username}';
   String get participantCountText => '총 ${participantCount} ';
-
-  String get eventStatusText => status == EventStatus.finished
-      ? '종료'
-      : status == EventStatus.ongoing
-          ? '진행중'
-          : '예정';
 
   /// Static function to create an empty event
   static EventModel empty() => EventModel(
@@ -43,8 +39,9 @@ class EventModel {
         date: Formatter.formatDate(DateTime.now()),
         startTime: Formatter.formatDate(DateTime.now()),
         endTime: Formatter.formatDate(DateTime.now()),
-        category: '',
-        status: EventStatus.ongoing,
+        category: 'Study',
+        status: 'Pending',
+        userEmail: '',
       );
 
   Map<String, dynamic> toJson() {
@@ -57,7 +54,8 @@ class EventModel {
       'startTime': startTime,
       'endTime': endTime,
       'category': category,
-      'status': status.toString(),
+      'status': status,
+      'userEmail': userEmail,
     };
   }
 
@@ -72,9 +70,8 @@ class EventModel {
       startTime: data['startTime'] as String,
       endTime: data['endTime'] as String,
       category: data['category'] as String,
-      status: EventStatus.values.firstWhere(
-        (e) => e.toString() == data['status'],
-      ),
+      status: data['status'] as String,
+      userEmail: data['userEmail'] as String,
     );
   }
 }
