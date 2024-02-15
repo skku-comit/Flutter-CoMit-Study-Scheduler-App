@@ -32,4 +32,24 @@ class LoginController extends GetxController {
       print(e);
     }
   }
+
+  /// Apple Sign In Authentication
+  Future<void> appleSignIn() async {
+    try {
+      // Start Loading
+
+      // Apple Authentication
+      final userCredentials =
+          await AuthenticationRepository.instance.signInWithApple();
+
+      // Save Authenticated user data in Firebase Firestore
+      await userController.saveUserRecord(userCredentials: userCredentials);
+
+      // Redirect
+      await AuthenticationRepository.instance
+          .screenRedirect(userCredentials?.user);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
