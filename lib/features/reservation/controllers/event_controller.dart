@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +9,19 @@ import 'package:get/get.dart';
 
 class EventController extends GetxController {
   static EventController get instance => Get.find();
+  @override
+  void onInit() {
+    fetchAllEvents();
+    super.onInit();
+  }
 
   final eventRepository = Get.put(EventRepository());
   Rx<EventModel> event = EventModel.empty().obs;
-  RxList<EventModel> events = <EventModel>[].obs;
 
   /// Fetch event data
   Future<List<EventModel>> fetchDateEvents(String date) async {
     try {
       final dateEvents = await eventRepository.fetchDateEvents(date);
-      events.assignAll(dateEvents);
       return dateEvents;
     } catch (e) {
       return [];
@@ -44,6 +49,7 @@ class EventController extends GetxController {
             id: event.id,
             title: event.title,
             username: event.username,
+            description: event.description,
             participantCount: event.participantCount,
             date: event.date,
             startTime: event.startTime,
@@ -51,6 +57,7 @@ class EventController extends GetxController {
             category: event.category,
             status: event.status,
             userEmail: event.userEmail,
+            userId: event.userId,
           );
           await eventRepository.saveEventData(newEvent);
           this.event(newEvent);
@@ -60,6 +67,26 @@ class EventController extends GetxController {
         await eventRepository.saveEventData(event);
         this.event(event);
       }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  /// fetch users event data
+  Future<List<EventModel>> fetchUserEvents() async {
+    try {
+      final userEvents = await eventRepository.fetchUserEvents();
+      return userEvents;
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+      return [];
+    }
+  }
+
+  /// Delete event data
+  Future<void> deleteEventData(String id) async {
+    try {
+      await eventRepository.deleteEventData(id);
     } catch (e) {
       Get.snackbar('Error', e.toString());
     }

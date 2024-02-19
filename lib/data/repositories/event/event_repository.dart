@@ -50,4 +50,31 @@ class EventRepository extends GetxController {
       throw e.toString();
     }
   }
+
+  /// Functiont to fetch user's event data from firestore
+  Future<List<EventModel>> fetchUserEvents() async {
+    try {
+      final userId = AuthenticationRepository.instance.getUserID;
+      print(userId);
+      final result = await _db
+          .collection("Events")
+          .where('userId', isEqualTo: userId)
+          .get();
+      return result.docs
+          .map((documentSnapshot) => EventModel.fromSnapshot(documentSnapshot))
+          .toList();
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+      throw e.toString();
+    }
+  }
+
+  /// Function to delete event data from firestore
+  Future<void> deleteEventData(String id) async {
+    try {
+      await _db.collection("Events").doc(id).delete();
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
+  }
 }

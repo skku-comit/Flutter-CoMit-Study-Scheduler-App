@@ -6,6 +6,7 @@ class EventModel {
   final String id;
   final String title;
   final String username;
+  final String description;
   final int participantCount;
   final String date;
   final String startTime;
@@ -13,11 +14,13 @@ class EventModel {
   final String category;
   final String status;
   final String userEmail;
+  final String userId;
 
   EventModel({
     required this.id,
     required this.title,
     required this.username,
+    required this.description,
     required this.participantCount,
     required this.date,
     required this.startTime,
@@ -25,6 +28,7 @@ class EventModel {
     required this.category,
     required this.status,
     required this.userEmail,
+    required this.userId,
   });
 
   String get usernameText => 'by ${username}';
@@ -35,6 +39,7 @@ class EventModel {
         id: '',
         title: '',
         username: '',
+        description: '',
         participantCount: 0,
         date: Formatter.formatDate(DateTime.now()),
         startTime: Formatter.formatDate(DateTime.now()),
@@ -42,6 +47,7 @@ class EventModel {
         category: 'Study',
         status: 'Pending',
         userEmail: '',
+        userId: '',
       );
 
   Map<String, dynamic> toJson() {
@@ -49,6 +55,7 @@ class EventModel {
       'id': id,
       'title': title,
       'username': username,
+      'description': description,
       'participantCount': participantCount,
       'date': date,
       'startTime': startTime,
@@ -56,6 +63,7 @@ class EventModel {
       'category': category,
       'status': status,
       'userEmail': userEmail,
+      'userId': userId,
     };
   }
 
@@ -65,6 +73,7 @@ class EventModel {
       id: data['id'] as String,
       title: data['title'] as String,
       username: data['username'] as String,
+      description: data['description'] as String,
       participantCount: data['participantCount'] as int,
       date: data['date'] as String,
       startTime: data['startTime'] as String,
@@ -72,6 +81,7 @@ class EventModel {
       category: data['category'] as String,
       status: data['status'] as String,
       userEmail: data['userEmail'] as String,
+      userId: data['userId'] as String,
     );
   }
 }
