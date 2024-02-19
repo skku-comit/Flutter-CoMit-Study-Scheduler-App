@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/controllers/calendar_controller.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/models/event_model.dart';
 import 'package:flutter_comit_study_scheduler_app/utils/formatters/formatter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -32,6 +33,7 @@ class CalendarTable extends StatelessWidget {
                 id: event['id'],
                 title: event['title'],
                 username: event['username'],
+                description: event['description'],
                 participantCount: event['participantCount'],
                 date: event['date'],
                 startTime: event['startTime'],
@@ -39,6 +41,7 @@ class CalendarTable extends StatelessWidget {
                 category: event['category'],
                 status: event['status'],
                 userEmail: event['userEmail'],
+                userId: event['userId'],
               )
             ];
           } else {
@@ -47,6 +50,7 @@ class CalendarTable extends StatelessWidget {
                 id: event['id'],
                 title: event['title'],
                 username: event['username'],
+                description: event['description'],
                 participantCount: event['participantCount'],
                 date: event['date'],
                 startTime: event['startTime'],
@@ -54,6 +58,7 @@ class CalendarTable extends StatelessWidget {
                 category: event['category'],
                 status: event['status'],
                 userEmail: event['userEmail'],
+                userId: event['userId'],
               ),
             );
           }
@@ -73,37 +78,95 @@ class CalendarTable extends StatelessWidget {
           ),
           child: Obx(
             () => TableCalendar(
-              firstDay: DateTime.utc(2020, 1, 1),
-              lastDay: DateTime.utc(2030, 12, 31),
-              focusedDay: controller.selectedDate.value,
-              locale: 'ko-KR',
-              daysOfWeekHeight: 30,
-              headerStyle: HeaderStyle(
-                titleCentered: true,
-                formatButtonVisible: false,
-              ),
-              eventLoader: (day) {
-                String d = Formatter.formatDate(day);
-                day = DateTime.parse(d);
-                return eventsMap[day] ?? [];
-              },
-              onDaySelected: controller.onDaySelected,
-              selectedDayPredicate: (day) =>
-                  isSameDay(controller.selectedDate.value, day),
-              calendarStyle: CalendarStyle(
-                  selectedDecoration: BoxDecoration(
-                    color: Colors.blue,
-                    shape: BoxShape.circle,
-                  ),
+                firstDay: DateTime.utc(2020, 1, 1),
+                lastDay: DateTime.utc(2030, 12, 31),
+                focusedDay: controller.selectedDate.value,
+                locale: 'ko-KR',
+                daysOfWeekHeight: 30,
+                headerStyle: HeaderStyle(
+                  titleCentered: true,
+                  formatButtonVisible: false,
+                ),
+                eventLoader: (day) {
+                  String d = Formatter.formatDate(day);
+                  day = DateTime.parse(d);
+                  return eventsMap[day] ?? [];
+                },
+                onDaySelected: controller.onDaySelected,
+                selectedDayPredicate: (day) =>
+                    isSameDay(controller.selectedDate.value, day),
+                calendarStyle: CalendarStyle(
                   todayDecoration: BoxDecoration(
                     color: Colors.grey,
-                    shape: BoxShape.circle,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  selectedDecoration: BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  weekendDecoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  outsideDecoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  defaultDecoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   todayTextStyle: TextStyle(color: Colors.white),
                   markerSize: 10.0,
                   markerDecoration: BoxDecoration(
-                      color: Colors.purple[200], shape: BoxShape.circle)),
-            ),
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, day, events) {
+                    if (events.isNotEmpty) {
+                      List<EventModel> _events = List<EventModel>.from(events);
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _events.length,
+                        itemBuilder: (context, index) {
+                          if (_events[index].category == 'Study') {
+                            return Container(
+                              margin: EdgeInsets.only(top: 30.h),
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.purple,
+                                size: 12.sp,
+                              ),
+                            );
+                          } else if (_events[index].category == 'Meeting') {
+                            return Container(
+                              margin: EdgeInsets.only(top: 30.h),
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.amber,
+                                size: 12.sp,
+                              ),
+                            );
+                          } else {
+                            return Container(
+                              margin: EdgeInsets.only(top: 30.h),
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.teal,
+                                size: 12.sp,
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                )),
           ),
         );
       },

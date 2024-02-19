@@ -3,15 +3,26 @@ import 'package:flutter_comit_study_scheduler_app/features/reservation/screens/c
 import 'package:flutter_comit_study_scheduler_app/bottomsheet_widget.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/screens/event/widgets/event_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/calendar_controller.dart';
 
 class CalendarScreen extends StatelessWidget {
-  CalendarScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(CalendarController());
     return Scaffold(
       appBar: AppBar(
-        leading: Container(), // remove back button
-        title: Text('Study Scheduler'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/logos/comit-logo.png',
+              width: 50.w,
+              height: 50.h,
+            ),
+          ],
+        ),
       ),
       body: Container(
         padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0.h),
@@ -20,7 +31,10 @@ class CalendarScreen extends StatelessWidget {
           children: [
             CalendarTable(),
             SizedBox(height: 20.h),
-            Expanded(child: EventWidget()),
+            Expanded(
+              child: Obx(() =>
+                  EventWidget(selectedDate: controller.selectedDate.value)),
+            ),
           ],
         ),
       ),
