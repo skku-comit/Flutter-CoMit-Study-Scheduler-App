@@ -1,13 +1,10 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_comit_study_scheduler_app/features/personalization/controllers/user_controller.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/controllers/calendar_controller.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/controllers/create_event_controller.dart';
+import 'package:flutter_comit_study_scheduler_app/timepicker.dart';
 import 'package:flutter_comit_study_scheduler_app/utils/formatters/formatter.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class BottomsheetWidget extends StatefulWidget {
   BottomsheetWidget({Key? key}) : super(key: key);
@@ -17,13 +14,13 @@ class BottomsheetWidget extends StatefulWidget {
 }
 
 class _BottomsheetWidgetState extends State<BottomsheetWidget> {
-  final List<int> participantCount = [3, 4, 5, 6, 7];
   int? selectedParticipantCount;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedStartTime = TimeOfDay.now();
   TimeOfDay selectedEndTime = TimeOfDay.now();
-
-  final List<bool> _selected = <bool>[true, false, false];
+  bool studyClicked = false;
+  bool meetingClicked = false;
+  bool otherClicked = false;
 
   final _formkey = GlobalKey<FormState>();
 
@@ -57,6 +54,20 @@ class _BottomsheetWidgetState extends State<BottomsheetWidget> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 100.h,
+                child: TextField(
+                  controller: controller.description,
+                  decoration: InputDecoration(
+                    label: Text('일정 설명'),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  maxLines: null,
+                  expands: true,
+                ),
+              ),
               Row(
                 children: [
                   Expanded(
@@ -84,117 +95,143 @@ class _BottomsheetWidgetState extends State<BottomsheetWidget> {
                   )
                 ],
               ),
-              TextField(
-                controller: controller.date,
-                decoration: InputDecoration(
-                  labelText: '날짜 선택',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.calendar_today),
-                    onPressed: () async {
-                      final pickedDate = await showPlatformDatePicker(
-                        context: context,
-                        initialDate: selectedDate,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      );
-
-                      if (pickedDate != null && pickedDate != selectedDate) {
-                        setState(() {
-                          selectedDate = pickedDate;
-                          controller.date.text =
-                              Formatter.formatDate(pickedDate);
-                        });
-                      }
-                    },
-                  ),
-                ),
-              ),
+              TimePicker(),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: controller.startTime,
-                      decoration: InputDecoration(
-                        labelText: '시작 시간',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  InkWell(
+                      customBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.r),
+                      ),
+                      onTap: () {
+                        setState(() {
+                          studyClicked = false;
+                          meetingClicked = !meetingClicked;
+                          otherClicked = false;
+                        });
+                      },
+                      child: Ink(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.r),
+                          color: Color(0xFFFFE873).withOpacity(0.4),
+                          border: meetingClicked
+                              ? Border.all(color: Colors.amber, width: 2)
+                              : Border.all(color: Colors.white, width: 2),
                         ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.access_time),
-                          onPressed: () async {
-                            final pickedTime = await showTimePicker(
-                              context: context,
-                              initialTime: selectedStartTime,
-                            );
+                        width: 110.w,
+                        height: 35.h,
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Icon(
+                                Icons.circle,
+                                color: Colors.amber,
+                                size: 20.sp,
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                '회의',
+                                style: TextStyle(
+                                    fontSize: 15.sp, color: Colors.black),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                  InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        meetingClicked = false;
 
-                            if (pickedTime != null &&
-                                pickedTime != selectedStartTime) {
-                              setState(() {
-                                selectedStartTime = pickedTime;
-                                controller.startTime.text =
-                                    "${pickedTime.hour}:${pickedTime.minute}";
-                              });
-                            }
-                          },
-                        ),
+                        studyClicked = !studyClicked;
+                        otherClicked = false;
+                      });
+                    },
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.r),
+                        color: Color(0xFFC875FF).withOpacity(0.4),
+                        border: studyClicked
+                            ? Border.all(color: Colors.purple, width: 2)
+                            : Border.all(color: Colors.white, width: 2),
+                      ),
+                      width: 110.w,
+                      height: 35.h,
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Icon(
+                              Icons.circle,
+                              color: Colors.purple,
+                              size: 20.sp,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              '스터디',
+                              style: TextStyle(
+                                  fontSize: 15.sp, color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  SizedBox(width: 20.w),
-                  Expanded(
-                    child: TextField(
-                      controller: controller.endTime,
-                      decoration: InputDecoration(
-                        labelText: '종료 시간',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.access_time),
-                          onPressed: () async {
-                            final pickedTime = await showTimePicker(
-                              context: context,
-                              initialTime: selectedEndTime,
-                            );
-
-                            if (pickedTime != null &&
-                                pickedTime != selectedEndTime) {
-                              setState(() {
-                                selectedEndTime = pickedTime;
-                                controller.endTime.text =
-                                    "${pickedTime.hour}:${pickedTime.minute}";
-                              });
-                            }
-                          },
-                        ),
+                  InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        meetingClicked = false;
+                        studyClicked = false;
+                        otherClicked = !otherClicked;
+                      });
+                    },
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.r),
+                        color: Color(0xFF6DD7B9).withOpacity(0.4),
+                        border: otherClicked
+                            ? Border.all(color: Colors.teal, width: 2)
+                            : Border.all(color: Colors.white, width: 2),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      width: 110.w,
+                      height: 35.h,
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Icon(
+                              Icons.circle,
+                              color: Colors.teal,
+                              size: 20.sp,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              '기타',
+                              style: TextStyle(
+                                  fontSize: 15.sp, color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ],
-              ),
-              Text(
-                '카테고리 선택',
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              ToggleButtons(
-                children: [Text('회의'), Text('스터디'), Text('기타')],
-                isSelected: _selected,
-                onPressed: (int index) {
-                  setState(() {
-                    for (int i = 0; i < _selected.length; i++) {
-                      _selected[i] = i == index;
-                    }
-                  });
-                  CreateEventController.instance
-                      .setSelectedCategoryIndex(index);
-                },
               ),
               InkWell(
                 onTap: () {

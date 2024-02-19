@@ -25,106 +25,27 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20.h),
-            TextField(
-              decoration: InputDecoration(
-                hintText: '이메일',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50.r),
-                ),
-              ),
+            Image(
+              image: AssetImage('assets/logos/comit-logo.png'),
+              height: 200.h,
+              width: 200.w,
             ),
+
             SizedBox(height: 20.h),
-            TextField(
-              decoration: InputDecoration(
-                hintText: '비밀번호',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50.r),
-                ),
-              ),
-            ),
-            SizedBox(height: 20.h),
-            InkWell(
-              // onTap: (() => Get.to(HomePage())),
-              onTap: () => null,
-              child: Ink(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.r),
-                  color: Color(0XFF4A4A4A),
-                ),
-                width: double.infinity,
-                height: 50.h,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text('로그인',
-                      style:
-                          TextStyle(fontSize: 20.sp, color: Color(0XFFFFFFFF))),
-                ),
-              ),
-            ),
-            SizedBox(height: 20.h),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 1.h,
-                    color: Color(0XFF4A4A4A),
-                  ),
-                ),
-                SizedBox(width: 10.w),
-                Text(
-                  '또는',
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    color: Color(0XFF4A4A4A),
-                  ),
-                ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: Container(
-                    height: 1.h,
-                    color: Color(0XFF4A4A4A),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-            // InkWell(
-            //   onTap: () async {},
-            //   child: Ink(
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(50.r),
-            //       color: Color(0XFFFEE500),
-            //     ),
-            //     width: double.infinity,
-            //     height: 50.h,
-            //     child: Container(
-            //       alignment: Alignment.center,
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           SvgPicture.asset(
-            //             'assets/logos/kakao-logo.svg',
-            //             width: 25.w,
-            //             height: 25.h,
-            //           ),
-            //           SizedBox(width: 10.w),
-            //           Text('카카오 로그인',
-            //               style: TextStyle(
-            //                   fontSize: 20.sp, color: Color(0xD9000000))),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // SizedBox(height: 10.h),
-            // google login
             InkWell(
               onTap: () => controller.googleSignIn(),
               child: Ink(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(50.r),
                   color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
                 ),
                 width: double.infinity,
                 height: 50.h,
@@ -155,15 +76,22 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 20.h),
             // apple login
             InkWell(
               onTap: () => controller.appleSignIn(),
               child: Ink(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(50.r),
                   color: Colors.black,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
                 ),
                 width: double.infinity,
                 height: 50.h,

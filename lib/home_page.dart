@@ -7,7 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image(image: AssetImage('assets/logos/comit-logo.jpeg')),
+        child: Image(image: AssetImage('assets/logos/comit-logo.png')),
       ),
     );
   }
