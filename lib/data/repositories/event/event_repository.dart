@@ -55,7 +55,6 @@ class EventRepository extends GetxController {
   Future<List<EventModel>> fetchUserEvents() async {
     try {
       final userId = AuthenticationRepository.instance.getUserID;
-      print(userId);
       final result = await _db
           .collection("Events")
           .where('userId', isEqualTo: userId)
@@ -72,7 +71,13 @@ class EventRepository extends GetxController {
   /// Function to delete event data from firestore
   Future<void> deleteEventData(String id) async {
     try {
-      await _db.collection("Events").doc(id).delete();
+      await _db.collection("Events").where('id', isEqualTo: id).get().then(
+        (value) {
+          value.docs.forEach((element) {
+            element.reference.delete();
+          });
+        },
+      );
     } catch (e) {
       Get.snackbar('Error', e.toString());
     }
