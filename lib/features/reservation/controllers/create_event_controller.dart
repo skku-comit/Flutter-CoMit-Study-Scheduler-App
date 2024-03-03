@@ -16,13 +16,16 @@ class CreateEventController extends GetxController {
   final title = TextEditingController();
   final username = TextEditingController(
       text: AuthenticationRepository.instance.getDisplayName);
-  final participantCount = TextEditingController();
   final description = TextEditingController();
   final date = TextEditingController(
       text:
           Formatter.formatDate(CalendarController.instance.selectedDate.value));
-  final startTime = TextEditingController();
-  final endTime = TextEditingController();
+  RxInt startHour = 0.obs;
+  RxInt startMinute = 0.obs;
+  RxInt endHour = 0.obs;
+  RxInt endMinute = 0.obs;
+  RxString category = 'Study'.obs;
+  RxInt? participantCount;
 
   RxBool isMaking = false.obs; // isMaking 상태 변수 추가
 
@@ -41,12 +44,12 @@ class CreateEventController extends GetxController {
         title: title.text.trim(),
         username: username.text.trim(),
         description: description.text.trim(),
-        participantCount: int.parse(participantCount.text),
+        participantCount: participantCount?.value ?? 3,
         date: Formatter.formatDate(
             CalendarController.instance.selectedDate.value),
-        startTime: startTime.text.trim(),
-        endTime: endTime.text.trim(),
-        category: 'Study',
+        startTime: '${startHour.value}:${startMinute.value}',
+        endTime: '${endHour.value}:${endMinute.value}',
+        category: category.value,
         status: 'Pending',
         userEmail: AuthenticationRepository.instance.getUserEmail,
         userId: userId,
@@ -57,9 +60,10 @@ class CreateEventController extends GetxController {
 
       Get.snackbar(
         ' ${username.text} - ${title.text}',
-        '${Formatter.formatDate(CalendarController.instance.selectedDate.value)} ${startTime.text} ~ ${endTime.text} 일정이 추가되었습니다.',
+        '${Formatter.formatDate(CalendarController.instance.selectedDate.value)} ${startHour.value}:${startMinute.value} ~ ${endHour.value}:${endMinute.value} 일정이 추가되었습니다.',
         snackPosition: SnackPosition.BOTTOM,
       );
+
       //add one day and sub one day to update the event list
       CalendarController.instance.selectedDate.value =
           CalendarController.instance.selectedDate.value.add(Duration(days: 1));
@@ -77,10 +81,23 @@ class CreateEventController extends GetxController {
   void clearControllers() {
     title.clear();
     // username.clear();
-    participantCount.clear();
     description.clear();
     // date.clear();
-    startTime.clear();
-    endTime.clear();
+  }
+
+  void setStartHour(int val) {
+    startHour(val);
+  }
+
+  void setStartMinute(int val) {
+    startMinute(val);
+  }
+
+  void setEndHour(int val) {
+    endHour(val);
+  }
+
+  void setEndMinute(int val) {
+    endMinute(val);
   }
 }

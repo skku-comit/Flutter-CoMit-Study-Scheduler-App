@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_comit_study_scheduler_app/data/repositories/event/event_repository.dart';
+import 'package:flutter_comit_study_scheduler_app/features/reservation/controllers/calendar_controller.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/models/event_model.dart';
 import 'package:get/get.dart';
 
@@ -87,6 +88,13 @@ class EventController extends GetxController {
   Future<void> deleteEventData(String id) async {
     try {
       await eventRepository.deleteEventData(id);
+      Get.snackbar('삭제 완료', '일정이 삭제되었습니다', snackPosition: SnackPosition.BOTTOM);
+      //add one day and sub one day to update the event list
+      CalendarController.instance.selectedDate.value =
+          CalendarController.instance.selectedDate.value.add(Duration(days: 1));
+      CalendarController.instance.selectedDate.value = CalendarController
+          .instance.selectedDate.value
+          .subtract(Duration(days: 1));
     } catch (e) {
       Get.snackbar('Error', e.toString());
     }

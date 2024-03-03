@@ -10,6 +10,7 @@ class CalendarController extends GetxController {
 
   final eventRepository = Get.put(EventRepository());
   Rx<DateTime> selectedDate = DateTime.now().obs;
+  RxBool extended = false.obs;
 
   /// Fetch all event data
   Future<List<EventModel>> fetchAllEvents() async {
