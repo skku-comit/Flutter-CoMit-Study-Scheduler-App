@@ -3,9 +3,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/controllers/calendar_controller.dart';
 import 'package:flutter_comit_study_scheduler_app/features/reservation/models/event_model.dart';
+import 'package:flutter_comit_study_scheduler_app/utils/constants/colors.dart';
 import 'package:flutter_comit_study_scheduler_app/utils/formatters/formatter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarTable extends StatelessWidget {
@@ -63,18 +65,12 @@ class CalendarTable extends StatelessWidget {
             );
           }
         }
+
         return Container(
+          margin: EdgeInsets.symmetric(horizontal: 20.w),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: Offset(5, 5),
-              ),
-            ],
           ),
           child: Obx(
             () => TableCalendar(
@@ -82,7 +78,7 @@ class CalendarTable extends StatelessWidget {
                 lastDay: DateTime.utc(2030, 12, 31),
                 focusedDay: controller.selectedDate.value,
                 locale: 'ko-KR',
-                daysOfWeekHeight: 30,
+                daysOfWeekHeight: 30.h,
                 headerStyle: HeaderStyle(
                   titleCentered: true,
                   formatButtonVisible: false,
@@ -102,7 +98,7 @@ class CalendarTable extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15.r),
                   ),
                   selectedDecoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: Colors.teal[200],
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(15.r),
                   ),
@@ -139,8 +135,8 @@ class CalendarTable extends StatelessWidget {
                               margin: EdgeInsets.only(top: 30.h),
                               child: Icon(
                                 Icons.circle,
-                                color: Colors.purple,
-                                size: 12.sp,
+                                color: AppColors.study,
+                                size: 8.sp,
                               ),
                             );
                           } else if (_events[index].category == 'Meeting') {
@@ -148,8 +144,8 @@ class CalendarTable extends StatelessWidget {
                               margin: EdgeInsets.only(top: 30.h),
                               child: Icon(
                                 Icons.circle,
-                                color: Colors.amber,
-                                size: 12.sp,
+                                color: AppColors.meeting,
+                                size: 8.sp,
                               ),
                             );
                           } else {
@@ -157,8 +153,8 @@ class CalendarTable extends StatelessWidget {
                               margin: EdgeInsets.only(top: 30.h),
                               child: Icon(
                                 Icons.circle,
-                                color: Colors.teal,
-                                size: 12.sp,
+                                color: AppColors.etc,
+                                size: 8.sp,
                               ),
                             );
                           }
