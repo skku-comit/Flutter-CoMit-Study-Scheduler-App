@@ -47,8 +47,10 @@ class CreateEventController extends GetxController {
         participantCount: participantCount?.value ?? 3,
         date: Formatter.formatDate(
             CalendarController.instance.selectedDate.value),
-        startTime: '${startHour.value}:${startMinute.value}',
-        endTime: '${endHour.value}:${endMinute.value}',
+        startTime:
+            '${Formatter.formatHour(startHour.value)}:${Formatter.formatMinute(startMinute.value)}',
+        endTime:
+            '${Formatter.formatHour(endHour.value)}:${Formatter.formatMinute(endMinute.value)}',
         category: category.value,
         status: 'Pending',
         userEmail: AuthenticationRepository.instance.getUserEmail,
