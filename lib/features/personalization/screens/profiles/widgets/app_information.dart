@@ -6,14 +6,18 @@ class AppInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('App Information'),
-        ),
-        body: Container(
-            child: Column(
-          children: [
-            Text('App Information'),
-          ],
-        )));
+        backgroundColor: Color(0xFFF8F8F8),
+        body: SafeArea(
+          child: Container(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('App Information'),
+                  Text('Version: 1.0.0'),
+                  Text('Developer: John Doe'),
+                ],
+              )),
+        ));
   }
 }

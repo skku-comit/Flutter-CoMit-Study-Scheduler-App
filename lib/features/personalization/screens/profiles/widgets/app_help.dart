@@ -6,14 +6,16 @@ class AppHelp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('App Help'),
-        ),
-        body: Container(
-            child: Column(
-          children: [
-            Text('App Help'),
-          ],
-        )));
+        backgroundColor: Color(0xFFF8F8F8),
+        body: SafeArea(
+          child: Container(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Text('App Help'),
+                  Text('For help, please contact us at:'),
+                ],
+              )),
+        ));
   }
 }
